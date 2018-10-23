@@ -1,0 +1,16 @@
+{
+  "name": "data-flow-js",
+  "version": "1.0.0",
+  "description": "Data binding and handling JS library",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "rollup -c -w",
+    "build": "rollup -c rollup-build.config.js",
+    "test": "jest"
+  },
+  "author": "Aleksandar Panic",
+  "license": "MIT",
+  "dependencies": {
+    "rollup": "^0.66.6"
+  }
+}
