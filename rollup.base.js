@@ -8,5 +8,6 @@ export const BASE = {
     format: 'cjs',
     intro: '!function(document, window) {',
     outro: '}(document, window);'
-  }
+  },
+  plugins: []
 };
