@@ -11,14 +11,14 @@ DataFlow JS data binding JS library
 
 <script src="data-flow.js"></script>
 <script>
-var flow = new DataFlow({
+var flow = DataFlow({
    myBoundData: 'my data',
    nested: {
       data: {
          works: 'too'
       }
    }
-});
+}); // "new DataFlow(data)"" also works.
 
 // Bind all changes to myBoundData to all elements of class my-element
 flow.bind({to: '.my-element', path: 'myBoundData'});
