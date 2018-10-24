@@ -1,9 +1,7 @@
 import inspect from './inspect';
-import findByPath from './path';
+import findByPath from './find-by-path';
 
-export default function toDataSource(data) {
-    return new DataSource(data);
-}
+export default DataSource;
 
 function DataSource(data) {
     this._data = data;

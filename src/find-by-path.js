@@ -1,7 +1,6 @@
 import inspect from './inspect';
-export default findByPath;
 
-function findByPath(object, path, createPathIfEmpty) {
+export default function findByPath(object, path, createPathIfEmpty) {
    if (!path) {
       return {
           result: object,
