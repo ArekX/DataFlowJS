@@ -36,7 +36,6 @@ function setRenderer(name, callback) {
 function getDefaultRenderers() {
   return {
       html: function(boundElement, forElement) {
-          console.log(boundElement, forElement);
           forElement.innerHTML = String(boundElement.getValue());
       },
       text: function(boundElement, forElement) {
