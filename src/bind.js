@@ -10,8 +10,8 @@ export default function bind(renderer, dataSource, config) {
 
 function bindArray(renderer, dataSource, items) {
   var results = [];
-  for(var i = 0; i < config.length; i++) {
-      results.push(bindSingle(renderer, dataSource, config[i]));
+  for(var i = 0; i < items.length; i++) {
+      results.push(bindSingle(renderer, dataSource, items[i]));
   }
 
   return results;

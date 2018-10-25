@@ -11,6 +11,12 @@
   "author": "Aleksandar Panic",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.0.0",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.4.2",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^23.6.0",
+    "jsdom": "^12.0.0",
     "rollup": "^0.66.6",
     "rollup-plugin-uglify": "^6.0.0"
   }

@@ -39,7 +39,7 @@ function getDefaultRenderers() {
           forElement.innerHTML = String(boundElement.getValue());
       },
       text: function(boundElement, forElement) {
-          forElement.innerText = String(boundElement.getValue());
+          forElement.textContent = String(boundElement.getValue());
       }
   };
 }

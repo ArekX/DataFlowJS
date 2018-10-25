@@ -4,10 +4,10 @@ var noop = function() {};
 
 function BoundElement(config) {
     this.element = inspect.isString(config.to) ? document.querySelectorAll(config.to) : config.to;
-    this.multiple = config.multiple || (this.element instanceof NodeList && this.element.length > 1);
+    this.multiple = config.multiple || this.element.length > 1;
     this.renderer = config.renderer;
 
-    if (!this.multiple) {
+    if (!this.multiple && this.element.length) {
         this.element = this.element[0];
     }
 
