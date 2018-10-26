@@ -34,4 +34,8 @@ flow.set('nested.data.works', "<strong>also works</strong>");
 
 # Building
 
-Run `npm install` then run `npm run build`.
+Run `npm install` and then run `npm run build`.
+
+# Testing
+
+Run `npm install` and then `npm test` to run all Jest tests.
