@@ -1,10 +1,9 @@
-import inspect from './inspect';
 import findByPath from './find-by-path';
 
 export default DataSource;
 
 function DataSource(data) {
-    this._data = data;
+    this._data = data || {};
     this._bound = true;
     this.handlers = [];
 }

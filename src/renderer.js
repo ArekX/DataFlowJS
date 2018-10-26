@@ -16,8 +16,7 @@ function render(boundElement) {
    var rendererName = boundElement.as;
 
    if (typeof rendererName === "function") {
-      rendererName(boundElement);
-      boundElement.onAfterRender();
+      runOnBoundElement(rendererName, boundElement);
       return;
    }
 
@@ -26,11 +25,10 @@ function render(boundElement) {
    }
 
    this.renderers[rendererName](boundElement);
-   boundElement.onAfterRender();
 }
 
 function setRenderer(name, callback) {
-   tihs.renderers[name] = callback;
+   this.renderers[name] = runOnBoundElement.bind(this, callback);
 }
 
 function getDefaultRenderers() {
@@ -52,6 +50,8 @@ function runOnBoundElement(callback, boundElement) {
     } else {
         callback(boundElement, boundElement.element);
     }
+
+    boundElement.onAfterRender();
 }
 
 function getInitialRenderers() {

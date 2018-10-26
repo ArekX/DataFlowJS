@@ -32,8 +32,8 @@ export default function findByPath(object, path, createPathIfEmpty) {
         }
      }
 
-      if (i < parts.length - 2 && !inspect.isObject(walker[part])) {
-          var partName = parts.slice(0, i).join('.');
+      if (i < parts.length - 1 && !inspect.isObject(walker[part])) {
+          var partName = parts.slice(0, i + 1).join('.');
           throw new Error('Cannot traverse data in path ' + partName + ' since part of it is not an object.');
       }
 

@@ -1,8 +1,8 @@
 import inspect from './inspect';
 
-var noop = function() {};
+export var noop = function() {};
 
-function BoundElement(config) {
+export default function BoundElement(config) {
     this.element = inspect.isString(config.to) ? document.querySelectorAll(config.to) : config.to;
     this.multiple = config.multiple || this.element.length > 1;
     this.renderer = config.renderer;
@@ -24,10 +24,8 @@ function BoundElement(config) {
     this.onAfterRender = config.onAfterRender || noop;
 
     this.onBind.call(this.element);
-
-    if (!config.disableUpdate) {
-        this.update();
-    }
+    this.updateDisabled = config.updateDisabled || false;
+    this.update();
 }
 
 BoundElement.prototype.getValue = getValue;
@@ -35,8 +33,6 @@ BoundElement.prototype.setValue = setValue;
 BoundElement.prototype.run = run;
 BoundElement.prototype.update = update;
 BoundElement.prototype.unbind = unbind;
-
-export default BoundElement;
 
 function getValue(defaultValue) {
     return this.dataSource.get(this.path, defaultValue);
@@ -50,6 +46,10 @@ function setValue(value) {
 }
 
 function update() {
+    if (this.updateDisabled) {
+       return;
+    }
+
     this.onUpdate.call(this.element, this.getValue());
     return this.renderer.render(this);
 }
@@ -57,7 +57,7 @@ function update() {
 function unbind() {
     this._bound = false;
     this.dataSource.unbindHandler(this._boundHandler);
-    this.onUnbind.call(this.element, value);
+    this.onUnbind.call(this.element);
 }
 
 function run(callback) {
