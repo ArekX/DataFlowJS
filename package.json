@@ -1,6 +1,6 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Data binding and handling JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
@@ -11,7 +11,18 @@
   },
   "author": "Aleksandar Panic",
   "license": "MIT",
-  "dependencies": {
+  "keywords": [
+      "pure",
+      "js",
+      "databinding",
+      "one-way",
+      "two-way",
+      "oneway",
+      "twoway",
+      "library",
+      "configurable"
+  ],
+  "devDependencies": {
     "@babel/core": "7.1.2",
     "@babel/preset-env": "7.1.0",
     "babel-core": "7.0.0-bridge.0",
