@@ -51,7 +51,7 @@ function update() {
     }
 
     this.onUpdate.call(this.element, this.getValue(), this);
-    return this.renderer.render(this);
+    this.renderer.render(this);
 }
 
 function unbind() {

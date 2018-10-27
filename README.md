@@ -54,6 +54,18 @@ flow.set('nested.data.works', "<strong>also works</strong>");
 </script>
 ```
 
+# Examples
+
+Let us create data for todo list. There is a finished example in `examples` folder.
+
+# Building
+
+Run `npm install` and then run `npm run build`.
+
+# Testing
+
+Run `npm install` and then `npm test` to run all Jest tests.
+
 # Reference
 
 ### DataFlow
@@ -100,118 +112,32 @@ DataFlow returns passed or new instance of `DataFlow.DataSource` with added `bin
 Also you can set static renderers which will be available on all new instances of `DataFlow.Renderer`, by calling:
 `Renderer.setStaticRenderer(rendererName, callback)` signature is the same as `DataFlow.Renderer.set`
 
-# Example - TODO List
+### DataFlow.BoundElement Reference
 
-Let us create data for todo list. There is a finished example in `examples` folder as `todo-example.html`
+DataFlow's BoundElement is instantiated when `bind` function is called, it's an instance which manages
+updates to an element defined by a selector.
 
-First we will need html:
+| method  | parameters | description |
+| ------------- | ------------- | ------------- |
+| constructor  | config - JSON object (refer below for config) | Creates and instantiates new BoundElement. |
+| getValue | (Optional) **defaultValue** - Default value which will be returned if original value does not exist. | Returns value or default value if key defined by `config.path` is not in datasource. |
+| setValue | **value** - value which will be set. | Sets value in datasource defined by key set in `config.path`, after which this element will be updated. |
+| run | **callback** - callback of type `function(value) {}` value which will be called. | Runs callback which allows you to update value got from datasource by path defined by `config.path` after which `DataSource.update()` is called to notify datasource of the changes. |
+| update | None. | Runs update to re-render the changes. |
+| unbind | None. | Unbinds element from listening to any changes in the datasource. |
 
-```html
-<h1>Count: <span id="todo-count"></span></h1>
-<ul id="list"></ul>
+### BoundElement configuration
 
-<div>
-    <input type="text" id="todo" value="">
-    <button type="button" id="addItem">Add</button>
-</div>
-```
-
-You will need to include `data-flow.js` or `data-flow.min.js`:
-`<script src="dist/data-flow.min.js"></script>`
-
-Then you define your todo data flow:
-
-```js
-var flow = DataFlow({items: [
-   'finish programming task',
-   'get coffee'
-], name: ''});
-```
-
-First we bind to count which will show number of todo items added:
-
-```js
-flow.bind({to: '#todo-count', path: 'items.length'});
-```
-
-Since `length` is a parameter of items array. You can also traverse that. When items
-changes count will be re-rendered.
-
-Now we add list binding:
-
-```js
-var list = flow.bind({
-    to: "#list",
-    path: "items",
-    as: function(boundEl, el) {
-       el.innerHTML = boundEl.getValue().map(function(i) {
-          return "<li>" + i + " <button>X</button></li>";
-       }).join("\n");
-   },
-   onAfterRender: function(boundEl) {
-       var items = boundEl.element.querySelectorAll('li button');
-
-       for(var i = 0; i < items.length; i++) {
-           addRemoveHandler(boundEl, items[i], i);
-       }
-   }
-});
-
-function addRemoveHandler(boundElement, item, index) {
-  item.onclick = function() {
-       boundElement.run(function(items) {
-           items.splice(index, 1);
-       });
-  };
-}
-```
-
-This will need some deconstruction:
-1. We bind to `to` selector for `ul` element with id `list`.
-2. We will bind that to path `items`
-3. As accepts `text`, `html` or a callback function by default. Since we need to renderer list items as `li` elements we need to implement that so we will pass callback function here. A better implementation might be to define a renderer type for items but we will do this for simplicity.
-4. We define `onAfterRender` which will attach click event on all `li` elements so that they can be removed when clicking on the button on them.
-
-And now we will define input and an add button to add todos.
-
-```js
-var btn = document.querySelector('#addItem');
-btn.onclick = function() {
-  list.run(function(items) {
-      items.push(input.getValue());
-  });
-  input.setValue('');
-};
-
-var input = flow.bind({
-  to: '#todo',
-  path: 'name',
-  as: function(boundEl, el) {
-     el.value = boundEl.getValue();
-  },
-  onBind: function(boundEl) {
-       this.oninput = function() {
-             boundEl.setValue(boundEl.element.value);
-       };
-       this.onkeypress = function(e) {
-           if (e.which === 13) {
-               btn.click();
-           }
-       }
-  }
-});
-```
-
-1. We will add btn event so that clicking on in calls push function to add entered
-text from input to the list and clearst the input to accept next item.
-2. We will bind to the input itself so that `oninput` event will update the
-datasource so that we can add that item to the list.
-3. `onkeypress` is for simplification so that we can add items when hitting `enter` key.
-
-# Building
-
-Run `npm install` and then run `npm run build`.
-
-# Testing
-
-Run `npm install` and then `npm test` to run all Jest tests.
+| config | type | default | description |
+| ------------- | ------------- | ------------- | ------------- |
+| to  | String|Element|Mixed | - | Selector (if String) which will get the HTMLElement or any mixed type which will be used for rendering. |
+| multiple | boolean | - (will be set from number of retrieved elements by default) | Whether or not element is considered multiple elements. |
+| updateDisabled | boolean | false | Whether or not to update element on changes from datasource. |
+| renderer | DataFlow.Renderer | - | Renderer which will be used to render elements. |
+| dataSource | DataFlow.DataSource | - | DataSource which will be used read/set values. |
+| path | String | - | Key which will be used to get values from DataSource, can be dot-notation. |
+| as | String|Callback | text | Renderer which will be used. If String then renderer set from that string (by calling `Renderer.set` or `Renderer.setStaticRenderer`) from config will be used. |
+| onBind | Callback(BoundElement) with (Element from BoundElement as `this`) | (noop function) | Function which will be called when data is bound to datasource. |
+| onUpdate | Callback(Value, BoundElement) with (Element from BoundElement as `this`) | (noop function) | Function which will be called when data from datasource is updated. This will be called after onBind once to render the initial data. |
+| onAfterRender | Callback(BoundElement) with (Element from BoundElement as `this`) | (noop function) | Function which will be called after data is rendered to element. |
+| onUnbind | Callback(BoundElement) with (Element from BoundElement as `this`) | (noop function) | Function which will be called when `unbind` is called. |
