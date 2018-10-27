@@ -56,7 +56,7 @@ flow.set('nested.data.works', "<strong>also works</strong>");
 
 # Examples
 
-Let us create data for todo list. There is a finished example in `examples` folder.
+Examples are in html files `examples` folder, you will need to build dataflow in order for them to work.
 
 # Building
 

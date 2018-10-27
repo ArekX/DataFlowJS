@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Count: <span id="todo-count"></span></h1>
+      <ul id="list"></ul>
+
+      <button type="button" id="addItem">Add Another</button>
+
+      <script src="../dist/data-flow.js"></script>
+      <script>
+          var customRenderer = new DataFlow.Renderer();
+          customRenderer.set('custom-list-renderer', function(boundEl, forElement) {
+              forElement.innerHTML = boundEl.getValue().map(function(i) {
+                  return '<li><i>Custom Item: ' + i + '</i></li>';
+              }).join("");
+          });
+          var flow = DataFlow({items: [
+             'list1',
+             'list2'
+          ]}, customRenderer);
+
+
+          flow.bind({to: '#todo-count', path: "items.length"});
+          var list = flow.bind({to: '#list', as: 'custom-list-renderer', path: 'items'});
+
+          document.querySelector('#addItem').onclick = function() {
+              list.run(function(items) {
+                 items.push('another one custom rendered');
+              });
+          };
+      </script>
+  </body>
+</html>
