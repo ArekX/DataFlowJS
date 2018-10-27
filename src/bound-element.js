@@ -23,7 +23,7 @@ export default function BoundElement(config) {
     this.onUnbind = config.onUnbind || noop;
     this.onAfterRender = config.onAfterRender || noop;
 
-    this.onBind.call(this.element);
+    this.onBind.call(this.element, this);
     this.updateDisabled = config.updateDisabled || false;
     this.update();
 }
@@ -50,17 +50,17 @@ function update() {
        return;
     }
 
-    this.onUpdate.call(this.element, this.getValue());
+    this.onUpdate.call(this.element, this.getValue(), this);
     return this.renderer.render(this);
 }
 
 function unbind() {
     this._bound = false;
     this.dataSource.unbindHandler(this._boundHandler);
-    this.onUnbind.call(this.element);
+    this.onUnbind.call(this.element, this);
 }
 
 function run(callback) {
    callback.call(this, this.getValue());
-   this.update();
+   this.dataSource.update();
 }

@@ -105,6 +105,11 @@ describe('datasource getters and setters', () => {
       var randomDefaultValue = "random" + Math.random();
       expect(dataSource.get("unknown.value", randomDefaultValue)).toEqual(randomDefaultValue);
   });
+
+  test('calling nested getting falsy value returns that falsyvalue', () => {
+      var dataSource = createDataSource({unknown: {value: false}});
+      expect(dataSource.get("unknown.value", 'falsy')).toEqual(false);
+  });
 });
 
 function createDataSource(data, handler) {

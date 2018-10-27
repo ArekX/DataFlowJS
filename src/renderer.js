@@ -51,7 +51,7 @@ function runOnBoundElement(callback, boundElement) {
         callback(boundElement, boundElement.element);
     }
 
-    boundElement.onAfterRender();
+    boundElement.onAfterRender(boundElement);
 }
 
 function getInitialRenderers() {

@@ -236,6 +236,19 @@ describe('bound element setters/getters', () => {
       expect(bound.getValue({}).item).toBe("another new value");
   });
 
+  test('setting on value via run will call update all bound items on change', () => {
+      var data = new DataSource({key: {item: "value"}, key2: "value"});
+      var handler = jest.fn(() => {});
+      var bound = createBoundElement({path: "key", dataSource: data});
+      var bound2 = createBoundElement({path: "key2", onUpdate: handler, dataSource: data});
+
+      bound.run(function(e) {
+          e.item = "another new value";
+      });
+
+      expect(handler.mock.calls.length).toBe(2);
+  });
+
   test('setting value on unbound element will throw an error.', () => {
     var bound = createBoundElement({
       path: "key"

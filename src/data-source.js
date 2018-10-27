@@ -17,10 +17,10 @@ DataSource.prototype.bindHandler = bindHandler;
 DataSource.prototype.unbindHandler = unbindHandler;
 
 function getValue(name, defaultValue) {
-    var pathObject = findByPath(this._data, name);
+    var item = findByPath(this._data, name);
 
-    if (pathObject.path) {
-        return pathObject.result[pathObject.path] || defaultValue;
+    if (item.path) {
+        return item.result.hasOwnProperty(item.path) ? item.result[item.path] : defaultValue;
     }
 
     return defaultValue;

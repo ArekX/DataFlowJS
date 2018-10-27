@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Count: <span id="todo-count"></span></h1>
+      <ul id="list"></ul>
+
+      <div>
+          <input type="text" id="todo" value="">
+          <button type="button" id="addItem">Add</button>
+      </div>
+
+      <script src="../dist/data-flow.js"></script>
+      <script>
+          var flow = DataFlow({items: [
+             'finish programming task',
+             'get coffee'
+          ], name: ''});
+
+          flow.bind({to: '#todo-count', path: 'items.length'});
+
+          var list = flow.bind({
+              to: "#list",
+              path: "items",
+              as: function(boundEl, el) {
+                 el.innerHTML = boundEl.getValue().map(function(i) {
+                    return "<li>" + i + " <button>X</button></li>";
+                 }).join("\n");
+             },
+             onAfterRender: function(boundEl) {
+                 var items = boundEl.element.querySelectorAll('li button');
+
+                 for(var i = 0; i < items.length; i++) {
+                     addRemoveHandler(boundEl, items[i], i);
+                 }
+             }
+          });
+
+          function addRemoveHandler(boundElement, item, index) {
+            item.onclick = function() {
+                 boundElement.run(function(items) {
+                     items.splice(index, 1);
+                 });
+            };
+          }
+
+          var btn = document.querySelector('#addItem');
+          btn.onclick = function() {
+            list.run(function(items) {
+                items.push(input.getValue());
+            });
+            input.setValue('');
+          };
+
+          var input = flow.bind({
+            to: '#todo',
+            path: 'name',
+            as: function(boundEl, el) {
+               el.value = boundEl.getValue();
+            },
+            onBind: function(boundEl) {
+                 this.oninput = function() {
+                       boundEl.setValue(boundEl.element.value);
+                 };
+                 this.onkeypress = function(e) {
+                     if (e.which === 13) {
+                         btn.click();
+                     }
+                 }
+            }
+          });
+      </script>
+  </body>
+</html>
