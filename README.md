@@ -76,16 +76,29 @@ DataFlow returns passed or new instance of `DataFlow.DataSource` with added `bin
 
 ### DataFlow.DataSource Reference
 
-| method  | parameters | description
-| ------------- | ------------- |
-| constructor  | **data** - JSON object of data | Creates and instrantiantes new DataSource.
-| set | **name** - key which will be set  (dot notation is supported so that you can set `object.key1.key2.key3`, non-existing objects will be created), **data** - data which will be set to that key | Sets data to a specified name and runs updates.
-| get | **name** - key from which data will be returned (dot notation is supported so that you can get `object.key1.key2.key3`), **defaultValue** - default value which will be returned if key is not found | Returns value from key or default value
-| run | **callback** - function of type `function(data) { }` where user can set any of the data directly or change it. After that function finishes, update will be called. | Runs direct update on the specified data in the datasource and updates all relevant bindings.
-| update | None. | Runs update and updates all relevant bindings.
-| unbind | None. | Unbinds datasource from data, this will effectively unbind all dataflow bindings as well.
-| bindHandler | **handler** - handler which will be invoked on all changes. | Binds handler for any of the changes to datasource. Callback will be invoked with `this` set to the originating datasource.
-| unbindHandler | **handler** - handler which will be unbound from all changes | Unbinds handler from all changes to datasource.
+| method  | parameters | description |
+| ------------- | ------------- | ------------- |
+| constructor  | **data** - JSON object of data | Creates and instrantiantes new DataSource. |
+| set | **name** - key which will be set  (dot notation is supported so that you can set `object.key1.key2.key3`, non-existing objects will be created), **data** - data which will be set to that key | Sets data to a specified name and runs updates. |
+| get | **name** - key from which data will be returned (dot notation is supported so that you can get `object.key1.key2.key3`), **defaultValue** - default value which will be returned if key is not found | Returns value from key or default value |
+| run | **callback** - function of type `function(data) { }` where user can set any of the data directly or change it. After that function finishes, update will be called. | Runs direct update on the specified data in the datasource and updates all relevant bindings. |
+| update | None. | Runs update and updates all relevant bindings. |
+| unbind | None. | Unbinds datasource from data, this will effectively unbind all dataflow bindings as well. |
+| bindHandler | **handler** - handler which will be invoked on all changes. | Binds handler for any of the changes to datasource. Callback will be invoked with `this` set to the originating datasource. |
+| unbindHandler | **handler** - handler which will be unbound from all changes | Unbinds handler from all changes to datasource. |
+
+
+### DataFlow.Renderer Reference
+
+| method  | parameters | description |
+| ------------- | ------------- | ------------- |
+| constructor  | None | Creates and instantiates new Renderer. |
+| render | **boundElement** instance of `DataFlow.BoundElement` when calling `bind` or `DataFlow.bind`. | Renders bound element based on their configuration |
+| set | **name** - renderer name which can be used in `as`, **callback** - renderer callback of type `function(boundElement, forElement) {}` which will be called | Sets renderer type which can be set to `as` when calling `bind` or `DataFlow.bind`. If existing renderer is specified it will be overwritten. |
+| runOnBoundElement | **callback** - callback which will be ran of type `function(boundElement, forElement) {}`, **boundElement** - instance of `DataFlow.BoundElement` on which the callback will be called upon. | Runs callback on bound element where it's called based on whether element has multiple element or a single element. |
+
+Also you can set static renderers which will be available on all new instances of `DataFlow.Renderer`, by calling:
+`Renderer.setStaticRenderer(rendererName, callback)` signature is the same as `DataFlow.Renderer.set`
 
 # Example - TODO List
 
