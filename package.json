@@ -1,11 +1,12 @@
 {
-  "name": "data-flow-js",
-  "version": "1.0.0",
+  "name": "@arekx/data-flow-js",
+  "version": "1.0.6",
   "description": "Data binding and handling JS library",
-  "main": "src/index.js",
+  "main": "dist/data-flow.min.js",
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c rollup-build.config.js",
+    "build-dev": "rollup -c rollup.config.js",
     "test": "jest"
   },
   "author": "Aleksandar Panic",

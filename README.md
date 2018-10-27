@@ -54,6 +54,10 @@ flow.set('nested.data.works', "<strong>also works</strong>");
 </script>
 ```
 
+# Installation
+
+Installation is done using npm - `npm install --save @arekx/data-flow-js`.
+
 # Examples
 
 Examples are in html files `examples` folder, you will need to build dataflow in order for them to work.
