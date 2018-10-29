@@ -1,7 +1,7 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.7",
-  "description": "Data binding and handling JS library",
+  "version": "1.0.8",
+  "description": "One-way/Two-way data binding and handling and rendeing JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
     "start": "rollup -c -w",
@@ -22,6 +22,8 @@
       "library",
       "configurable"
   ],
+  "homepage": "https://github.com/ArekX/DataFlowJS",
+  "bugs": "https://github.com/ArekX/DataFlowJS/issues",
   "devDependencies": {
     "@babel/core": "7.1.2",
     "@babel/preset-env": "7.1.0",

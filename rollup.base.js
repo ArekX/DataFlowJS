@@ -6,7 +6,10 @@ export const BASE = {
   output: {
     file: 'dist/data-flow.js',
     format: 'cjs',
-    intro: '!function(document, window) {',
+    intro: `
+    /** DataFlow JS v1.0.8 by Aleksandar Panic. License: MIT **/
+    !function(document, window) {
+    `,
     outro: '}(document, window);'
   },
   plugins: []

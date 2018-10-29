@@ -1,6 +1,9 @@
 'use strict';
 
-!function(document, window) {
+
+    /** DataFlow JS v1.0.8 by Aleksandar Panic. License: MIT **/
+    !function(document, window) {
+    
 
 var inspect = {
       isObject: isObject,
