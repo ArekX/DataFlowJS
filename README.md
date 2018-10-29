@@ -60,7 +60,7 @@ Installation is done using npm - `npm install --save @arekx/data-flow-js`.
 
 # Examples
 
-Examples are in html files `examples` folder, you will need to build dataflow in order for them to work.
+Examples are in html files `examples` folder.
 
 # Building
 

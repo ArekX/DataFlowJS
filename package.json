@@ -1,7 +1,7 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.8",
-  "description": "One-way/Two-way data binding and handling and rendeing JS library",
+  "version": "1.0.9",
+  "description": "Data binding and handling and rendering JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
     "start": "rollup -c -w",
