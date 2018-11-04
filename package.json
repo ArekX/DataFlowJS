@@ -1,6 +1,6 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Data binding and handling and rendering JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
@@ -12,15 +12,15 @@
   "author": "Aleksandar Panic",
   "license": "MIT",
   "keywords": [
-      "pure",
-      "js",
-      "databinding",
-      "one-way",
-      "two-way",
-      "oneway",
-      "twoway",
-      "library",
-      "configurable"
+    "pure",
+    "js",
+    "databinding",
+    "one-way",
+    "two-way",
+    "oneway",
+    "twoway",
+    "library",
+    "configurable"
   ],
   "homepage": "https://github.com/ArekX/DataFlowJS",
   "bugs": "https://github.com/ArekX/DataFlowJS/issues",
@@ -33,5 +33,8 @@
     "jsdom": "^12.0.0",
     "rollup": "^0.66.6",
     "rollup-plugin-uglify": "^6.0.0"
+  },
+  "dependencies": {
+    "merge": "^1.2.1"
   }
 }
