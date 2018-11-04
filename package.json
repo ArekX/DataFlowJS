@@ -1,6 +1,6 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Data binding and handling and rendering JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
