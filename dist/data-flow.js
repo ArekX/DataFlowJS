@@ -227,7 +227,8 @@ function run$1(callback) {
 var staticRenderers = {};
 
 function Renderer() {
-   this.renderers = getInitialRenderers();
+   this.renderers = {};
+   setupInitialRenderers(this);
 }
 
 Renderer.prototype.render = render;
@@ -280,27 +281,24 @@ function runOnBoundElement(callback, boundElement) {
     boundElement.onAfterRender.call(boundElement.element, boundElement);
 }
 
-function getInitialRenderers() {
+function setupInitialRenderers(instance) {
     var renderers = getDefaultRenderers();
+    for(var name in renderers) {
+        instance.set(name, renderers[name]);
+    }
 
     for(var name in staticRenderers) {
         if (staticRenderers.hasOwnProperty(name)) {
-            renderers[name] = staticRenderers[name];
+            instance.set(name, staticRenderers[name]);
         }
     }
-
-    for(var name in renderers) {
-        renderers[name] = runOnBoundElement.bind(this, renderers[name]);
-    }
-
-    return renderers;
 }
 
 function DataFlow(dataSource, renderer) {
   renderer = renderer instanceof Renderer ? renderer : new Renderer();
   dataSource = dataSource instanceof DataSource ? dataSource : new DataSource(dataSource);
 
-  dataSource.bind = bind.bind(this, renderer, dataSource);
+  dataSource.bind = bind.bind(dataSource, renderer, dataSource);
   dataSource.renderer = renderer;
 
   return dataSource;

@@ -7,7 +7,7 @@ function DataFlow(dataSource, renderer) {
   renderer = renderer instanceof Renderer ? renderer : new Renderer();
   dataSource = dataSource instanceof DataSource ? dataSource : new DataSource(dataSource);
 
-  dataSource.bind = bindFn.bind(this, renderer, dataSource);
+  dataSource.bind = bindFn.bind(dataSource, renderer, dataSource);
   dataSource.renderer = renderer;
 
   return dataSource;
