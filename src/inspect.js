@@ -1,11 +1,16 @@
 export default {
       isObject: isObject,
       isString: isString,
-      isUndefined: isUndefined
+      isUndefined: isUndefined,
+      isFunction: isFunction
 };
 
 function isObject(val) {
     return typeof val === "object";
+}
+
+function isFunction(val) {
+    return typeof val === "function";
 }
 
 function isString(val) {

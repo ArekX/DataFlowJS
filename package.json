@@ -1,6 +1,6 @@
 {
   "name": "@arekx/data-flow-js",
-  "version": "1.0.11",
+  "version": "1.1.12",
   "description": "Data binding and handling and rendering JS library",
   "main": "dist/data-flow.min.js",
   "scripts": {
@@ -32,9 +32,7 @@
     "jest": "^23.6.0",
     "jsdom": "^12.0.0",
     "rollup": "^0.66.6",
-    "rollup-plugin-uglify": "^6.0.0"
-  },
-  "dependencies": {
+    "rollup-plugin-uglify": "^6.0.0",
     "merge": "^1.2.1"
   }
 }

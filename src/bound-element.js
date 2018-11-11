@@ -14,6 +14,7 @@ export default function BoundElement(config) {
     this.dataSource = config.dataSource;
     this.path = config.path;
     this.as = config.as || 'text';
+
     this._bound = true;
     this._boundHandler = this.update.bind(this);
     this.dataSource.bindHandler(this._boundHandler);
@@ -23,6 +24,8 @@ export default function BoundElement(config) {
     this.onUnbind = config.onUnbind || noop;
     this.onAfterRender = config.onAfterRender || noop;
 
+    this.changeDetector = config.changeDetector;
+
     this.onBind.call(this.element, this);
     this.updateDisabled = config.updateDisabled || false;
     this.update();
@@ -31,6 +34,7 @@ export default function BoundElement(config) {
 BoundElement.prototype.getValue = getValue;
 BoundElement.prototype.setValue = setValue;
 BoundElement.prototype.run = run;
+BoundElement.prototype.shouldUpdate = shouldUpdate;
 BoundElement.prototype.update = update;
 BoundElement.prototype.unbind = unbind;
 
@@ -50,8 +54,18 @@ function update() {
        return;
     }
 
-    this.onUpdate.call(this.element, this.getValue(), this);
-    this.renderer.render(this);
+    if (this.shouldUpdate()) {
+       this.onUpdate.call(this.element, this.getValue(), this);
+       this.renderer.render(this);
+    }
+}
+
+function shouldUpdate() {
+   if (!this.changeDetector) {
+        return true;
+   }
+
+   return this.changeDetector.detect();
 }
 
 function unbind() {
