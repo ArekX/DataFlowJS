@@ -8,11 +8,16 @@
 var inspect = {
       isObject: isObject,
       isString: isString,
-      isUndefined: isUndefined
+      isUndefined: isUndefined,
+      isFunction: isFunction
 };
 
 function isObject(val) {
     return typeof val === "object";
+}
+
+function isFunction(val) {
+    return typeof val === "function";
 }
 
 function isString(val) {
@@ -23,7 +28,7 @@ function isUndefined(val) {
     return typeof val === "undefined";
 }
 
-var noop = function() {};
+function noop() {}
 
 function BoundElement(config) {
     this.element = inspect.isString(config.to) ? document.querySelectorAll(config.to) : config.to;
@@ -37,14 +42,18 @@ function BoundElement(config) {
     this.dataSource = config.dataSource;
     this.path = config.path;
     this.as = config.as || 'text';
+
     this._bound = true;
     this._boundHandler = this.update.bind(this);
     this.dataSource.bindHandler(this._boundHandler);
+    this.changeDetector = config.changeDetector || null;
 
     this.onBind = config.onBind || noop;
     this.onUpdate = config.onUpdate || noop;
     this.onUnbind = config.onUnbind || noop;
     this.onAfterRender = config.onAfterRender || noop;
+
+    this.changeDetector = config.changeDetector;
 
     this.onBind.call(this.element, this);
     this.updateDisabled = config.updateDisabled || false;
@@ -54,6 +63,7 @@ function BoundElement(config) {
 BoundElement.prototype.getValue = getValue;
 BoundElement.prototype.setValue = setValue;
 BoundElement.prototype.run = run;
+BoundElement.prototype.shouldUpdate = shouldUpdate;
 BoundElement.prototype.update = update;
 BoundElement.prototype.unbind = unbind;
 
@@ -68,13 +78,23 @@ function setValue(value) {
     this.dataSource.set(this.path, value);
 }
 
-function update() {
+function update(setPath) {
     if (this.updateDisabled) {
        return;
     }
 
-    this.onUpdate.call(this.element, this.getValue(), this);
-    this.renderer.render(this);
+    if (this.shouldUpdate(setPath)) {
+       this.onUpdate.call(this.element, this.getValue(), this);
+       this.renderer.render(this);
+    }
+}
+
+function shouldUpdate(setPath) {
+   if (!this.changeDetector) {
+       return !setPath || !this.path || setPath === this.path;
+   }
+
+   return this.changeDetector(this.path, this.dataSource, this);
 }
 
 function unbind() {
@@ -192,13 +212,19 @@ function setValue$1(name, value) {
         throw new Error('Cannot call setValue of unbound instance.');
     }
     var pathObject = findByPath(this._data, name, true);
-    pathObject.result[pathObject.path] = value;
-    this.update();
+
+    if (inspect.isFunction(value)) {
+         value(pathObject.result[pathObject.path], this._data);
+    } else {
+        pathObject.result[pathObject.path] = value;
+    }
+
+    this.update(name);
 }
 
-function update$1() {
+function update$1(name) {
     for(var i = 0; i < this.handlers.length; i++) {
-       this.handlers[i].call(this);
+       this.handlers[i].call(this, name);
     }
 }
 

@@ -1,6 +1,5 @@
 import inspect from './inspect';
-
-export var noop = function() {};
+import noop from './noop';
 
 export default function BoundElement(config) {
     this.element = inspect.isString(config.to) ? document.querySelectorAll(config.to) : config.to;
@@ -18,6 +17,7 @@ export default function BoundElement(config) {
     this._bound = true;
     this._boundHandler = this.update.bind(this);
     this.dataSource.bindHandler(this._boundHandler);
+    this.changeDetector = config.changeDetector || null;
 
     this.onBind = config.onBind || noop;
     this.onUpdate = config.onUpdate || noop;
@@ -49,23 +49,23 @@ function setValue(value) {
     this.dataSource.set(this.path, value);
 }
 
-function update() {
+function update(setPath) {
     if (this.updateDisabled) {
        return;
     }
 
-    if (this.shouldUpdate()) {
+    if (this.shouldUpdate(setPath)) {
        this.onUpdate.call(this.element, this.getValue(), this);
        this.renderer.render(this);
     }
 }
 
-function shouldUpdate() {
+function shouldUpdate(setPath) {
    if (!this.changeDetector) {
-        return true;
+       return !setPath || !this.path || setPath === this.path;
    }
 
-   return this.changeDetector.detect();
+   return this.changeDetector(this.path, this.dataSource, this);
 }
 
 function unbind() {

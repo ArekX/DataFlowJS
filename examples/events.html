@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Value: <span id="value"></span></h1>
+
+      <button type="button" id="change">Change</button>
+      <button type="button" id="unbind">Unbind</button>
+
+      <h4>Events:</h4>
+      <ul id="events"></ul>
+
+      <script src="../dist/data-flow.js"></script>
+      <script>
+          var flow = DataFlow({
+            events: [],
+            value: ''
+          });
+
+          var items = flow.bind([
+              {
+                  to: "#value",
+                  path: 'value',
+                  onBind: getChangeNotifier('onBind'),
+                  onAfterRender: getChangeNotifier('onAfterRender'),
+                  onUpdate: getChangeNotifier('onUpdate'),
+                  onUnbind: getChangeNotifier('onUnbind'),
+              },
+              {
+                  to: "#events",
+                  path: 'events',
+                  as: function(bound, el) {
+                        el.innerHTML = bound.getValue().map(function(i) {
+                            return '<li><i>Event: ' + i + '</i></li>'
+                        }).join(' ');
+                  }
+              }
+          ]);
+
+          document.querySelector('#change').onclick = function() {
+              flow.set('value', 'Changed');
+          };
+
+          document.querySelector('#unbind').onclick = function() {
+              // TODO: Add unbind single property.
+              // TODO: Setter in datasource?
+              items[0].unbind();
+          };
+
+          function getChangeNotifier(notifyText) {
+              return function () {
+                flow.set("events", function(events) {
+                     events.push(notifyText);
+                });
+              }
+          }
+      </script>
+  </body>
+</html>

@@ -2,7 +2,7 @@ import BoundElement from './bound-element';
 import DataSource from './data-source';
 import Renderer from './renderer';
 import jsdom from 'jsdom';
-import {noop} from './bound-element';
+import noop from './noop';
 
 describe('bound element initialization/destruction', () => {
     test('element will get initialized correctly', () => {

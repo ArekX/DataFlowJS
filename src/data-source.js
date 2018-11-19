@@ -1,4 +1,5 @@
 import findByPath from './find-by-path';
+import inspect from './inspect';
 
 export default DataSource;
 
@@ -31,13 +32,19 @@ function setValue(name, value) {
         throw new Error('Cannot call setValue of unbound instance.');
     }
     var pathObject = findByPath(this._data, name, true);
-    pathObject.result[pathObject.path] = value;
-    this.update();
+
+    if (inspect.isFunction(value)) {
+         value(pathObject.result[pathObject.path], this._data);
+    } else {
+        pathObject.result[pathObject.path] = value;
+    }
+
+    this.update(name);
 }
 
-function update() {
+function update(name) {
     for(var i = 0; i < this.handlers.length; i++) {
-       this.handlers[i].call(this);
+       this.handlers[i].call(this, name);
     }
 }
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Value 1: <span id="value1"></span></h1>
+      <h1>Value 2: <span id="value2"></span></h1>
+
+
+      <h3>Rendering</h3>
+      <h3 id="value-rendered1"></h3>
+      <h3 id="value-rendered2"></h3>
+
+      <button type="button" id="changeItem1">Add to value 1</button>
+      <button type="button" id="changeItem2">Add to value 2</button>
+      <button type="button" id="changeAll">Change using Run</button>
+
+      <script src="../dist/data-flow.js"></script>
+      <script>
+          var flow = DataFlow({
+              value1: 1,
+              value2: 1
+          });
+
+          var bound1 = flow.bind({
+            to: '#value1',
+            path: "value1",
+            onAfterRender: function() {
+                document.querySelector('#value-rendered1').textContent = "Value rendered at: " + performance.now();
+            }
+          });
+
+          var bound2 = flow.bind({
+            to: '#value2',
+            path: "value2",
+            onAfterRender: function() {
+                document.querySelector('#value-rendered2').textContent = "Value rendered at: " + performance.now();
+            }
+          });
+
+          document.querySelector('#changeItem1').onclick = function() {
+              bound1.setValue(bound1.getValue() + 1);
+          };
+
+          document.querySelector('#changeItem2').onclick = function() {
+              bound2.setValue(bound2.getValue() + 1);
+          };
+
+          document.querySelector('#changeAll').onclick = function() {
+              flow.run(function(items) {
+                  items.value1 = 2;
+                  items.value2 = 3;
+              });
+          };
+
+      </script>
+  </body>
+</html>
