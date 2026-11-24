@@ -1,8 +1,8 @@
 import { BASE } from './rollup.base';
-import { uglify } from "rollup-plugin-uglify";
+import terser from "@rollup/plugin-terser";
 
-BASE.plugins.push(uglify({
-    output: {
+BASE.plugins.push(terser({
+    format: {
          comments: "all"
     }
 }));
